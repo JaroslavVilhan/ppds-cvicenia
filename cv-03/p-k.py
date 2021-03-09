@@ -7,6 +7,7 @@ class Item():
         self.id = n
         print("Vyprodukovany %d vyrobok" % self.id)
 
+
 class Shared():
     def __init__(self):
         self.items = Semaphore(0)
