@@ -1,4 +1,11 @@
 from fei.ppds import Thread, Semaphore, Mutex, print
+from time import sleep
+
+PRODUCE_TIME = 0.4
+PROCESS_TIME = 0.2
+NUMBER_OF_PRODUCENTS = 10
+NUMBER_OF_CONSUMERS = 10
+SIZE_OF_BUFFER = 5
 
 
 class Item():
@@ -11,13 +18,14 @@ class Item():
 class Shared():
     def __init__(self):
         self.items = Semaphore(0)
-        self.free = Semaphore(5)
+        self.free = Semaphore(SIZE_OF_BUFFER)
         self.mutex = Mutex()
         self.item_id = 0
         self.queue = []
 
 
 def fnc_produce(shared):
+    sleep(PRODUCE_TIME)  # produce time
     shared.item_id += 1
     item = Item(shared.item_id)
     shared.free.wait()
@@ -34,16 +42,16 @@ def fnc_process(shared):
     print("Spracovany %d vyrobok" % item.id)
     shared.mutex.unlock()
     shared.free.signal()
-    # process time
+    sleep(PROCESS_TIME)  # process time
 
 
 sh = Shared()
 threads = []
 
 # najprv sa zamerne vytvaraju vlakna pre spracoovanie vyrobkov
-for i in range(10):
+for i in range(NUMBER_OF_CONSUMERS):
     threads.append(Thread(fnc_process, sh))
-for i in range(10):
+for i in range(NUMBER_OF_PRODUCENTS):
     threads.append(Thread(fnc_produce, sh))
 for t in threads:
     t.join()
