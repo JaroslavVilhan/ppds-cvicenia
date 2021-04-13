@@ -51,6 +51,17 @@ def task_c():
         yield
 
 
+def task_d():
+    count = 0
+    while True:
+        count += 1
+        print("Hello from Task D ! x" + str(count))
+        if count > 2:
+            print("Task D -- Koncim !")
+            break
+        yield
+
+
 tasks = [['a', task_a()], ['b', task_b()], ['c', task_c()]]
 
 planovac = Planovac(tasks)
