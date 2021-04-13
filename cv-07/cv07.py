@@ -23,6 +23,13 @@ class Planovac():
     def pridaj_dalsi_task(self, task):
         self.tasks.append(task)
 
+    def ukonci_task(self, name):
+        for task in tasks:
+            if task[0] == name:
+                print("PLANOVAC -- ukoncujem task " + name + "...")
+                task[1].close()
+                self.tasks.remove(task)
+
 
 def task_a():
     count = 0
@@ -43,6 +50,9 @@ def task_b():
         if count > 5:
             print("Task B -- Koncim !")
             break
+        if count == 2:
+            print("Task B -- Idem ukoncit Task A !!!")
+            planovac.ukonci_task('a')
         yield
 
 
