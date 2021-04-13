@@ -1,3 +1,23 @@
+class Planovac():
+    def __init__(self, tasks):
+        self.tasks = tasks
+
+    def spusti_task(self, task):
+        try:
+            task[1].send(None)
+        except StopIteration:
+            print("PLANOVAC -- task " + task[0] + " skoncil...")
+            self.tasks.remove(task)
+
+    def spusti_planovac(self):
+        while True:
+            if tasks:
+                for task in tasks:
+                    self.spusti_task(task)
+            else:
+                break
+
+
 def task_a():
     count = 0
     while True:
@@ -32,3 +52,6 @@ def task_c():
 
 
 tasks = [['a', task_a()], ['b', task_b()], ['c', task_c()]]
+
+planovac = Planovac(tasks)
+planovac.spusti_planovac()
