@@ -1,6 +1,7 @@
 class Planovac():
     def __init__(self, tasks):
         self.tasks = tasks
+        self.status = 'ok'
 
     def spusti_task(self, task):
         try:
@@ -15,7 +16,12 @@ class Planovac():
                 for task in tasks:
                     self.spusti_task(task)
             else:
+                print("PLANOVAC -- ziadne dalsie tasky !")
+                self.status = 'ziadne-tasky'
                 break
+
+    def pridaj_dalsi_task(self, task):
+        self.tasks.append(task)
 
 
 def task_a():
@@ -66,3 +72,7 @@ tasks = [['a', task_a()], ['b', task_b()], ['c', task_c()]]
 
 planovac = Planovac(tasks)
 planovac.spusti_planovac()
+
+if planovac.status == 'ziadne-tasky':
+    planovac.pridaj_dalsi_task(['d', task_d()])
+    planovac.spusti_planovac()
