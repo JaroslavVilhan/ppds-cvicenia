@@ -1,3 +1,4 @@
+import time
 import urllib.request
 
 
@@ -18,6 +19,9 @@ urls = [
     ]
 
 count = 0
+start_time = time.perf_counter()
 for url in urls:
     download_file(url, 'file' + str(count) + '.pdf')
     count += 1
+elapsed = time.perf_counter() - start_time
+print(f"\nTotal elapsed time: {elapsed:.1f} sec")
