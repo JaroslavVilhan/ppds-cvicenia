@@ -3,11 +3,18 @@ import cv2
 
 
 @cuda.jit
-def my_kernel(io_array):
+def my_kernel(data, out):
     """
-    Code for kernel.
+    prevedie obrazok na odtiene sivej
+
+    vypocet podla:
+    http://harmanani.github.io/classes/csc447/Notes/Lecture16.pdf
     """
-    # code here
+
+    x, y = cuda.grid(2)  # pozicia aktualneho vlakna v mriezke
+
+    # grayscale weights: 0.21*r, 0.71*g, 0.07*b
+    out[x][y] = 0.21*data[x][y][0] + 0.71*data[x][y][1] + 0.07*data[x][y][2]
 
 
 img = cv2.imread('img.jpg')
