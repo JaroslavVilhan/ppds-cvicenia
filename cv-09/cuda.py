@@ -1,5 +1,6 @@
 from numba import cuda
 import cv2
+from PIL import Image
 
 
 @cuda.jit
@@ -33,3 +34,10 @@ blockspergrid_y = (cols + (threadsperblock[1] - 1)) // threadsperblock[1]
 blockspergrid = (blockspergrid_x, blockspergrid_y)
 
 my_kernel[blockspergrid, threadsperblock](input_data, global_mem)
+
+# copy the result back to the host
+res = global_mem.copy_to_host()
+
+img = Image.fromarray(res)
+img = img.convert('RGB')
+img.save('out.jpg')
