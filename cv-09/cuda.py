@@ -25,7 +25,7 @@ rows, cols, colors = img.shape
 input_data = cuda.to_device(img)
 
 # Allocate memory on the device for the result
-global_mem = cuda.device_array((cols, rows))
+global_mem = cuda.device_array((rows, cols))
 
 threadsperblock = (32, 32)
 
