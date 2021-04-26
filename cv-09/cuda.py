@@ -20,10 +20,16 @@ def my_kernel(data, out):
 img = cv2.imread('img.jpg')
 rows, cols, colors = img.shape
 
+# Copy to the device
+input_data = cuda.to_device(img)
+
+# Allocate memory on the device for the result
+global_mem = cuda.device_array((cols, rows))
+
 threadsperblock = (32, 32)
 
 blockspergrid_x = (rows + (threadsperblock[0] - 1)) // threadsperblock[0]
 blockspergrid_y = (cols + (threadsperblock[1] - 1)) // threadsperblock[1]
 blockspergrid = (blockspergrid_x, blockspergrid_y)
 
-my_kernel[blockspergrid, threadsperblock]()
+my_kernel[blockspergrid, threadsperblock](input_data, global_mem)
